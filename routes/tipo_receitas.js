@@ -89,7 +89,7 @@ router.patch('/', (req, res, next) => {
                     
                 }
                 res.status(202).send({
-                    mensagem: 'Dados do usuário alterado com sucesso!',
+                    mensagem: 'Dados da receita alterado com sucesso!',
                     
                 })
             }
@@ -112,7 +112,7 @@ router.delete('/', (req, res, next) => {
                     })
                 }
                 res.status(202).send({
-                    mensagem: 'Usuário removido com sucesso',
+                    mensagem: 'Dados da receita removido com sucesso',
                 })
             }
         )

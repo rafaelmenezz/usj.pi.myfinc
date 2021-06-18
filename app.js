@@ -4,9 +4,10 @@ const morgan = require('morgan')
 const app = express();
 
 const users = require('./routes/usuario')
-const receita = require('./routes/receita')
-const despesa = require('./routes/despesa')
+const receita = require('./routes/receitas')
+const despesa = require('./routes/despesas')
 const tipoReceitas = require('./routes/tipo_receitas')
+const tipoDespesas = require('./routes/tipo_despesas')
 
 app.use(morgan('dev'))
 app.use(express.json())
@@ -16,6 +17,7 @@ app.use('/usuarios', users)
 app.use('/receitas', receita)
 app.use('/despesas', despesa)
 app.use('/tipo_receitas', tipoReceitas)
+app.use('/tipo_despesas', tipoDespesas)
 
 app.use((req, res, next) => {
     const erro = new Error('Não Encontrado')
