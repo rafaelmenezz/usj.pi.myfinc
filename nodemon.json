@@ -1,0 +1,9 @@
+{
+    "env": {
+        "MYSQL_USER" : "root", 
+        "MYSQL_PASSWORD" : "605279",
+        "MYSQL_DATABASE" : "myfincdb",
+        "MYSQL_HOST" : "localhost",
+        "MYSQL_PORT" : 3306
+    }
+}
