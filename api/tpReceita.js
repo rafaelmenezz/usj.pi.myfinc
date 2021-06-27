@@ -13,6 +13,7 @@ module.exports = app => {
              if(!tpReceita.id){ 
                  notExistsOrError(tpReceitaFromDB, 'Tipo de receita já cadastrada')
              }   
+             tpReceita.descricao = tpReceita.descricao.charAt(0).toUpperCase() + tpReceita.descricao.substr(1, tpReceita.descricao.length).toLowerCase()
         } catch (msg) {
             return res.status(400).send(msg)
         }
@@ -50,6 +51,7 @@ module.exports = app => {
 
             
         } catch (msg) {
+          
             return res.status(400).send(msg)
         }
     }

@@ -39,9 +39,9 @@ module.exports = app => {
         try {
             existsOrError( req.params.id, 'Codigo da despesa não informado.')
 
-            const receitas = await app.db('despesas')
+            const depesas = await app.db('despesas')
                 .where({tpDespesaId : req.params.id})
-            notExistsOrError(receitas, 'Tipo de despesa possui despesas cadastradas')
+            notExistsOrError(depesas, 'Tipo de despesa possui despesas cadastradas')
             
             const rowDelete = await app.db('tpDespesas')
                 .where({id: req.params.id}).del()

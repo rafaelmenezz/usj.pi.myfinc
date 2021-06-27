@@ -25,7 +25,7 @@ module.exports = app => {
         .get(app.api.tpReceita.getById)
         .delete(app.api.tpReceita.remove)
 
-    app.route('/tpDespesas')
+    app.route('/tpDespesas/')
         .all(app.config.passport.authenticate())
         .post(app.api.tpDespesa.save)
         .get(app.api.tpDespesa.get)
@@ -36,24 +36,38 @@ module.exports = app => {
         .get(app.api.tpDespesa.getById)
         .delete(app.api.tpDespesa.remove)
 
-    app.route('/receitas')
-        .all(app.config.passport.authenticate())
+    app.route('/receitas/:usuarioId')
+         .all(app.config.passport.authenticate())
         .post(app.api.receita.save)
         .get(app.api.receita.get)
 
-    app.route('/receitas/:id')
-        .all(app.config.passport.authenticate())
+    app.route('/receitas/:usuarioId/:id')
+     .all(app.config.passport.authenticate())
         .put(app.api.receita.save)
         .get(app.api.receita.getById)
         .delete(app.api.receita.remove)
-    app.route('/despesas')
-        .all(app.config.passport.authenticate())
+
+    app.route('/despesas/:usuarioId') 
+    .all(app.config.passport.authenticate())  
         .post(app.api.despesa.save)
         .get(app.api.despesa.get)
 
-    app.route('/despesas/:id')
-        .all(app.config.passport.authenticate())
+    app.route('/despesas/:usuarioId/:id')
+    .all(app.config.passport.authenticate())
         .put(app.api.despesa.save)
         .get(app.api.despesa.getById)
         .delete(app.api.despesa.remove)
+
+    app.route('/despesas/data/:usuarioId/:data')
+    .all(app.config.passport.authenticate())
+        .get(app.api.despesa.getByMes)
+
+    app.route('/receitas/data/:usuarioId/:data')
+    .all(app.config.passport.authenticate())
+        .get(app.api.receita.getByMes)
+
+    app.route('/admin/:id')
+        .all(app.config.passport.authenticate())
+        .get(app.api.admin.get)
+
 }

@@ -12,13 +12,33 @@ module.exports = app => {
         const usuario = {...req.body}
         if(req.params.id) usuario.id = req.params.id
 
+        if(usuario.id){
+            try {
+                existsOrError(usuario.nome, "Nome não informado")
+                existsOrError(usuario.email, "E-mail não informado")
+                existsOrError(usuario.login, "Login não informado")
+            }catch (msg) {
+                return res.status(400).send(msg+'olá')
+            }
+            app.db('usuarios')
+                .update({
+                    nome: usuario.nome,
+                    email: usuario.email,
+                    telefone: usuario.telefone,
+                    login: usuario.login
+                    })
+                .where({id: usuario.id})
+                .then(_=> res.status(204).send())
+                .catch(err => res.status(500).send('oi?' + err.message))
+        }else{
         try {
             existsOrError(usuario.nome, "Nome não informado")
             existsOrError(usuario.email, "E-mail não informado")
+            existsOrError(usuario.login, "Login não informado")
+
             existsOrError(usuario.senha, "Senha não informada")
             existsOrError(usuario.confirmaSenha, "Confirmação de Senha Inválida")
             existsOrError(usuario.senha, usuario.confirmaSenha, "Senha não conferem")
-
             const usuarioFromDB = await app.db('usuarios')
                 .where({email: usuario.email}).first()
             if(!usuario.id){ 
@@ -30,13 +50,8 @@ module.exports = app => {
         usuario.senha = encryptPassword(req.body.senha)
         delete usuario.confirmaSenha
 
-        if(usuario.id){
-            app.db('usuarios')
-                .update(usuario)
-                .where({id: usuario.id})
-                .then(_=> res.status(204).send())
-                .catch(err => res.status(500).send(err))
-        }else{
+       
+        
             app.db('usuarios')
                 .insert(usuario)
                 .then(_=> res.status(204).send())
