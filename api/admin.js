@@ -5,15 +5,15 @@ module.exports = app => {
 
         app.db
         .raw(
-        'SELECT ' +
-        '(SELECT sum(valor) FROM receitas WHERE YEAR(Data) = '+ hoje.getFullYear() +' AND MONTH(Data) = '+ (hoje.getMonth()+1).toString() +' AND usuarioId = '+ req.params.id +') as receitaMes, ' +
-        '(SELECT sum(valor) FROM receitas WHERE YEAR(Data) = '+ hoje.getFullYear() +' AND MONTH(Data) = '+ (hoje.getMonth()) +' AND usuarioId = '+ req.params.id +') as receitaMesAnterior, ' +
-        '(SELECT sum(valor) FROM receitas WHERE YEAR(Data) = '+ hoje.getFullYear() +' AND usuarioId = '+ req.params.id +')  as receitaAno, ' +
-        '(SELECT sum(valor) FROM receitas WHERE Data BETWEEN CURDATE() - INTERVAL 180 DAY AND CURDATE() AND usuarioId = '+ req.params.id +')  as receitaSeisMeses, ' +
-        '(SELECT sum(valor) FROM despesas WHERE YEAR(Data) = '+ hoje.getFullYear() +' AND MONTH(Data) = '+ (hoje.getMonth()+1).toString() +' AND usuarioId = '+ req.params.id +') as despesaMes, '+
-        '(SELECT sum(valor) FROM despesas WHERE YEAR(Data) = '+ hoje.getFullYear() +' AND MONTH(Data) = '+ hoje.getMonth() +' AND usuarioId = '+ req.params.id +') as depesaMesAnterior, ' +
-        '(SELECT sum(valor) FROM despesas WHERE YEAR(Data) = '+ hoje.getFullYear() +' AND usuarioId = '+ req.params.id +')  as despesaAno, ' +
-        '(SELECT sum(valor) FROM despesas WHERE Data BETWEEN CURDATE() - INTERVAL 180 DAY AND CURDATE() AND usuarioId = '+ req.params.id +')  as despesaSeisMeses' )
+        "SELECT " +
+        "(SELECT sum(valor) FROM receitas WHERE EXTRACT(year FROM data ) = "+ hoje.getFullYear() +" AND EXTRACT(month FROM data ) = "+ (hoje.getMonth()+1).toString() +" AND usuario_id = "+ req.params.id +") as receitaMes, " +
+        "(SELECT sum(valor) FROM receitas WHERE EXTRACT(year FROM data ) = "+ hoje.getFullYear() +" AND EXTRACT(month FROM data ) = "+ (hoje.getMonth()) +" AND usuario_id = "+ req.params.id +") as receitaMesAnterior, "+
+        "(SELECT sum(valor) FROM receitas WHERE EXTRACT(year FROM data ) = "+ hoje.getFullYear() +" AND usuario_id = "+ req.params.id +")  as receitaAno, " +
+        "(SELECT sum(valor) FROM receitas WHERE  data >  CURRENT_DATE - INTERVAL '6 month' AND usuario_id = "+ req.params.id +")  as receitaSeisMeses, " +
+        "(SELECT sum(valor) FROM despesas WHERE EXTRACT(year FROM data ) = "+ hoje.getFullYear() +" AND EXTRACT(month FROM data )  = "+ (hoje.getMonth()+1).toString() +" AND usuario_id = "+ req.params.id +") as despesaMes, "+
+        "(SELECT sum(valor) FROM despesas WHERE EXTRACT(year FROM data ) = "+ hoje.getFullYear() +" AND EXTRACT(month FROM data ) = "+ hoje.getMonth() +" AND usuario_id = "+ req.params.id +") as depesaMesAnterior, " +
+        "(SELECT sum(valor) FROM despesas WHERE EXTRACT(year FROM data ) = "+ hoje.getFullYear() +" AND usuario_id = "+ req.params.id +")  as despesaAno, " +
+        "(SELECT sum(valor) FROM despesas WHERE data >  CURRENT_DATE - INTERVAL '6 month' AND usuario_id = "+ req.params.id +")  as despesaSeisMeses" )
         .then(admin => res.json(admin[0][0]))
         .catch(err => res.status(500).send(err))
        
